@@ -46,6 +46,10 @@ const rootReducer = (state = initialState, action) => {
                 pokemons: filtered,
                 /* filter:  tipo === 'seleccionar' || creado === 'seleccionar' ? false : true  */
             }
+        case POST_POKEMON:
+            return { 
+                ...state
+            }
         case ORDER:
             let sorteado = []
             if(action.payload === 'asc'){

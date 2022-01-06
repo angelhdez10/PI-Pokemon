@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getPokemons, getTypes } from '../actions'
 
 const Home = () => {
+    
     const { pokemons, types } = useSelector(state => state)
     const [pages, setPages] = useState({
         page: 1,
@@ -36,6 +37,8 @@ const Home = () => {
             page: e
         })
     }
+
+    
 
     return (
         <Container>

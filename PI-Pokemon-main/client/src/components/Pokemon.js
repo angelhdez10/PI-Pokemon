@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { TarjetaD, Container } from "./Details"
 import Button from '../styled/Button'
 import Input from './Input'
 import Selector from './Selector'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { postPokemon } from '../actions'
 
 let flag = true;
 
@@ -26,6 +27,7 @@ const ButtonAc = styled(Button)`
 
 const Pokemon = () => {
     const { types } = useSelector(state => state)
+    const dispatch = useDispatch()
     const [newPokemon, setNewPokemon] = useState({
         name: '',
         strength: 50,
@@ -60,89 +62,97 @@ const Pokemon = () => {
             types: newPokemon.types.filter(t => t !== e.target.value)
         })
     } 
-    newPokemon.name !== '' ? flag=false : flag = true
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(postPokemon(newPokemon))
+    }
+
+    newPokemon.name !== '' && newPokemon.types.length ? flag=false : flag = true
     return (
         <Container>
             <TarjetaD>
-                <h1>Crear Pokemon</h1>
-                <Input 
-                    label='Nombre'
-                    name='name'
-                    value={newPokemon.name}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Fuerza'
-                    name='strength'
-                    type='range'
-                    value={newPokemon.strength}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Velocidad'
-                    name='speed'
-                    type='range'
-                    value={newPokemon.speed}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Defensa'
-                    name='defense'
-                    type='range'
-                    value={newPokemon.defense}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Vida'
-                    name='health'
-                    type='range'
-                    value={newPokemon.health}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Peso'
-                    name='weight'
-                    type='range'
-                    value={newPokemon.weight}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Altura'
-                    name='height'
-                    type='range'
-                    value={newPokemon.height}
-                    onChange={handleChange}
-                />
-                <Input 
-                    label='Imagen'
-                    name='image'
-                    value={newPokemon.image}
-                    onChange={handleChange}
-                />
-                
-                <br></br>
-                <Selector 
-                    label='Tipo'
-                    name='types'
-                    types={types}
-                    onClick={handleTypes}
-                />
+                <form onSubmit={handleSubmit}>
+                    <h1>Crear Pokemon</h1>
+                    <Input 
+                        label='Nombre'
+                        name='name'
+                        value={newPokemon.name}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Fuerza'
+                        name='strength'
+                        type='range'
+                        value={newPokemon.strength}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Velocidad'
+                        name='speed'
+                        type='range'
+                        value={newPokemon.speed}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Defensa'
+                        name='defense'
+                        type='range'
+                        value={newPokemon.defense}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Vida'
+                        name='health'
+                        type='range'
+                        value={newPokemon.health}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Peso'
+                        name='weight'
+                        type='range'
+                        value={newPokemon.weight}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Altura'
+                        name='height'
+                        type='range'
+                        value={newPokemon.height}
+                        onChange={handleChange}
+                    />
+                    <Input 
+                        label='Imagen'
+                        name='image'
+                        value={newPokemon.image}
+                        onChange={handleChange}
+                    />
+                    
+                    <br></br>
+                    <Selector 
+                        label='Tipo'
+                        name='types'
+                        types={types}
+                        onClick={handleTypes}
+                    />
 
-                <br></br>
-                <div style={{ 'width': '100%', 'display':'flex', 'justifyContent': 'center'} }>
-                    {newPokemon.types.length ? <ul>{
-                                                    newPokemon.types.map(t => (
-                                                        <div style={{'display':'inline-flex', 'justifyContent':'spaceBetween', 'width':'100%'}}>
-                                                        <li key={t}>{t}</li>
-                                                        <Eliminar value={t} onClick={handleEliminar}>x</Eliminar>
-                                                        </div>
-                                                    ))
-                                                    }</ul> : null}
-                </div>
-                <div style={{'display': 'flex', 'marginBottom':'10px', 'justifyContent':'space-around', 'width':'80%'}}>
-                <Link to='/home'><button>Volver</button></Link>
-                <ButtonAc disabled={flag} onClick={() => console.log('Click')}>Crear</ButtonAc>
-                </div>
+                    <br></br>
+                    <div style={{ 'width': '100%', 'display':'flex', 'justifyContent': 'center'} }>
+                        {newPokemon.types.length ? <ul>{
+                                                        newPokemon.types.map(t => (
+                                                            <div style={{'display':'inline-flex', 'justifyContent':'spaceBetween', 'width':'100%'}}>
+                                                            <li key={t}>{t}</li>
+                                                            <Eliminar value={t} onClick={handleEliminar}>x</Eliminar>
+                                                            </div>
+                                                        ))
+                                                        }</ul> : null}
+                    </div>
+                    <div style={{'display': 'flex', 'marginBottom':'10px', 'justifyContent':'space-around', 'width':'80%'}}>
+                    <Link to='/home'><button>Volver</button></Link>
+                    <ButtonAc disabled={flag} type='submit'>Crear</ButtonAc>
+                    </div>
+                </form>
             </TarjetaD>
         </Container>
     )

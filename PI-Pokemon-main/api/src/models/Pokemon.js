@@ -29,31 +29,37 @@ module.exports = (sequelize) => {
 
         health: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             defaultValue: 50
         },
 
         strength : {
             type: DataTypes.INTEGER,
+            allowNull: false,
             defaultValue: 50
         },
         
         defense: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             defaultValue: 50
         },
 
         speed: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             defaultValue: 50
         },
 
         height: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             defaultValue: 75
         },
 
         weight: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             defaultValue: 25
         },
         

@@ -70,6 +70,23 @@ export const getTypes = () => {
     }
 }
 
+export const postPokemon = (pokemon) => {
+    try{
+        return async dispatch =>{
+            console.log(pokemon)
+            const response = await axios.post('http://localhost:3001/pokemons', pokemon)
+            console.log(response)
+            dispatch({
+                type: POST_POKEMON,
+                payload: response.data
+            })
+        }
+    }catch(e){
+        throw new Error(e)
+    }
+}
+
+
 export const filtrado = (tipo) => {
     return dispatch => {
         dispatch({

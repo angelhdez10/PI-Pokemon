@@ -127,8 +127,9 @@ pokemon.get('/:id', async (req, res) => {
 })
 
 pokemon.post('/', async (req, res) => {
-    let { name, health, strength, defense, speed, height, weight,
-        image, type, created} = req.body
+    const { name, health, strength, defense, speed, height, weight,
+        image, types, created} = req.body
+        console.log(name)
     try {
             const newPokemon = await Pokemon.create({
                 name, 
@@ -142,13 +143,14 @@ pokemon.post('/', async (req, res) => {
                 created
             })
             
+            
             let typeDb = await Type.findAll({
-                where: { name : type}
+                where: { name : types}
             })
-
+            console.log(newPokemon)
             newPokemon.addType(typeDb)
             await allPokemons()
-            res.send(newPokemon)
+            res.json(allPokemons)
 
     }catch(e){
         throw new Error(e)
