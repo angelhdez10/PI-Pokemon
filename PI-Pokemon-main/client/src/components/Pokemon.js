@@ -4,9 +4,10 @@ import { TarjetaD, Container } from "./Details"
 import Button from '../styled/Button'
 import Input from './Input'
 import Selector from './Selector'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { postPokemon } from '../actions'
+import Charging from './Charging'
 
 let flag = true;
 
@@ -26,7 +27,8 @@ const ButtonAc = styled(Button)`
 
 
 const Pokemon = () => {
-    const { types } = useSelector(state => state)
+    let { types, loading } = useSelector(state => state)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [newPokemon, setNewPokemon] = useState({
         name: '',
@@ -35,7 +37,7 @@ const Pokemon = () => {
         defense: 50,
         health: 50,
         weight: 25,
-        height: 75,
+        height: 10,
         image: '',
         types: []
     })
@@ -50,29 +52,34 @@ const Pokemon = () => {
     }
 
     const handleChange = (e) => {
+       
         setNewPokemon({
             ...newPokemon,
             [e.target.name] : e.target.value
         })
+    
     }
 
     const handleEliminar = (e) => {
+        e.preventDefault()
         setNewPokemon({
             ...newPokemon,
             types: newPokemon.types.filter(t => t !== e.target.value)
         })
     } 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(postPokemon(newPokemon))
+        await dispatch(postPokemon(newPokemon)) 
+        navigate('/home')
     }
 
     newPokemon.name !== '' && newPokemon.types.length ? flag=false : flag = true
     return (
         <Container>
             <TarjetaD>
-                <form onSubmit={handleSubmit}>
+                {!loading ? 
+                <form style={{'width':'60%', 'display':'flex','flexWrap':'wrap', 'justifyContent':'center'}} onSubmit={handleSubmit}>
                     <h1>Crear Pokemon</h1>
                     <Input 
                         label='Nombre'
@@ -139,20 +146,20 @@ const Pokemon = () => {
 
                     <br></br>
                     <div style={{ 'width': '100%', 'display':'flex', 'justifyContent': 'center'} }>
-                        {newPokemon.types.length ? <ul>{
+                        {newPokemon.types.length ? <div><div style={{'width':'50%'}}>{
                                                         newPokemon.types.map(t => (
-                                                            <div style={{'display':'inline-flex', 'justifyContent':'spaceBetween', 'width':'100%'}}>
-                                                            <li key={t}>{t}</li>
+                                                            <div key={t} style={{'display':'inline-flex', 'justifyContent':'space-between', 'width':'100%'}}>
+                                                            <li >{t}</li>
                                                             <Eliminar value={t} onClick={handleEliminar}>x</Eliminar>
                                                             </div>
                                                         ))
-                                                        }</ul> : null}
+                                                        }</div></div> : null}
                     </div>
-                    <div style={{'display': 'flex', 'marginBottom':'10px', 'justifyContent':'space-around', 'width':'80%'}}>
+                    <div style={{'display': 'flex', 'marginBottom':'10px', 'justifyContent':'space-between', 'width':'80%'}}>
                     <Link to='/home'><button>Volver</button></Link>
                     <ButtonAc disabled={flag} type='submit'>Crear</ButtonAc>
                     </div>
-                </form>
+                </form> : <Charging /> }
             </TarjetaD>
         </Container>
     )

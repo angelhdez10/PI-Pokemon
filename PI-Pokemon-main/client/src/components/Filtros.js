@@ -1,14 +1,15 @@
 import styled from 'styled-components'
 import Filtro from './Filtro'
-import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { filtrado, orderBy } from '../actions'
+import { filtrado, orderBy, createdPok } from '../actions'
 
 const Div = styled.div`
-    background-color: white;
+    background-color: #00000010;
     display:flex;
     justify-content: space-between;
+    width: 100%;
 `
+
 
 const Filtros = () => {
     const types = useSelector(state => state.types)
@@ -27,6 +28,12 @@ const Filtros = () => {
         dispatch(orderBy(e.target.value))
         console.log(e.target.value)
     }
+
+    const handleCreated = (e) => {
+        dispatch(createdPok(e.target.value))
+    }
+
+   
     
     
     return ( 
@@ -54,7 +61,7 @@ const Filtros = () => {
                 seleccionar='--seleccionar--'
                 api='Api'
                 db='Creado'
-                onChange={()=>console.log('creado')}
+                onChange={handleCreated}
                 />
         </Div>
     )

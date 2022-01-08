@@ -5,6 +5,7 @@ import Paginado from './Paginado'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getPokemons, getTypes } from '../actions'
+import Filtros from './Filtros'
 
 const Home = () => {
     
@@ -17,6 +18,7 @@ const Home = () => {
     const indexL = pages.page*pages.pokemonPerPage;
     const indexF = indexL - pages.pokemonPerPage;
     const paginas = Math.ceil(pokemons.length/pages.pokemonPerPage)
+    console.log(pokemons)
     const pokemonRender = pokemons.slice(indexF, indexL)
 
     useEffect(() => {
@@ -43,6 +45,7 @@ const Home = () => {
     return (
         <Container>
             <Header />
+            <Filtros />
             <Paginado paginas={paginas} actual={pages.page} changePage={changePage}/>
             <Cards pokemons={pokemonRender} />
         </Container>

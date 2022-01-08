@@ -64,7 +64,7 @@ const getPokemonsDb = async () => {
 
 const allPokemons = async () => {
     try{
-        const api = await getPokemons()
+        const api = /* pokemons.length ? pokemons : */ await getPokemons()
         const db = await getPokemonsDb()
         const all = api.concat(db)
         pokemons = all
@@ -129,28 +129,38 @@ pokemon.get('/:id', async (req, res) => {
 pokemon.post('/', async (req, res) => {
     const { name, health, strength, defense, speed, height, weight,
         image, types, created} = req.body
-        console.log(name)
     try {
-            const newPokemon = await Pokemon.create({
-                name, 
-                health, 
-                strength, 
-                defense, 
-                speed, 
-                height, 
-                weight,
-                image,
-                created
-            })
-            
-            
-            let typeDb = await Type.findAll({
-                where: { name : types}
-            })
-            console.log(newPokemon)
-            newPokemon.addType(typeDb)
-            await allPokemons()
-            res.json(allPokemons)
+            console.log(pokemons.length)
+            const existent = pokemons.filter(p => p.name === name)
+            if(existent.length === 0){
+                let newPokemon = await Pokemon.create({
+                    name, 
+                    health, 
+                    strength, 
+                    defense, 
+                    speed, 
+                    height, 
+                    weight,
+                    image,
+                    created
+                })
+                
+                
+                let typeDb = await Type.findAll({
+                    where: { name : types}
+                })
+                await newPokemon.addType(typeDb)
+                newPokemon = await Pokemon.findOne({
+                    include: Type,
+                    where: { name : name}
+                })
+                console.log(pokemons.length)
+                pokemons.push(newPokemon)
+                console.log(pokemons.length)
+                res.json(newPokemon)
+            }else{
+                res.json({msg: 'Pokemon existent'})
+            }
 
     }catch(e){
         throw new Error(e)

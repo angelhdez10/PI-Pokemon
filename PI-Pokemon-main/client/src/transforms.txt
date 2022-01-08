@@ -1,0 +1,27 @@
+body {
+    -webkit-perspective: 800px;
+
+}
+
+.wrap {
+    transition: -webkit-transform 1s ease-in;
+    -webkit-transform-style: preserve-3d;
+}
+
+.wrap div {
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.side-a {
+    z-index: 100;
+
+}
+
+.side-b {
+    transform: rotateY(180deg);
+}
+
+.wrap:hover {
+    -webkit-transform: rotateY(0.5turn) ;
+}

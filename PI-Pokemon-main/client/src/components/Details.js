@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPokemonById } from '../actions'
+import { cleanPokemon, getPokemonById } from '../actions'
 import Button from '../styled/Button'
 
 
-const Statics = styled.div`
+export const Statics = styled.div`
     width: 90%;
     height: auto;
     padding: 5px;
@@ -26,19 +26,31 @@ export const Container = styled.div`
     justify-content: center;
 `
 
-const Total = styled.div`
+export const Total = styled.div`
     width:70%;
     height: 5px;
     border-radius:5px;
     background-color: white;
 `
 
-const Porcentaje = styled.div`
+export const Porcentaje = styled.div` 
     height: inherit;
     border-radius:5px;
-    width: ${props => props.width};
+    width: ${props => props.width}%;
+    animation-name: carga;
+    animation-duration: 2s;
     background-color: blue;
     
+    @keyframes carga{
+        0% {
+            width:0%;
+        }
+        50% {
+            width: ${props => props.width}%;
+        }
+        
+    }
+
 `
 
 export const TarjetaD = styled(Tarjeta)`
@@ -73,38 +85,38 @@ const Details = () => {
                 <Statics>
                     <label>Fuerza</label> <span>{p.strength}</span>
                     <Total>
-                        <Porcentaje width={p.strength * por +'%'}/>
+                        <Porcentaje width={p.strength * por}/>
                     </Total>
                 </Statics>
                 <Statics>
                     <label>Defensa</label> <span>{p.defense}</span>
                     <Total>
-                        <Porcentaje width={p.defense * por +'%'}/>
+                        <Porcentaje width={p.defense * por }/>
                     </Total>
                 </Statics>
                 <Statics>
                     <label>Vida</label> <span>{p.health}</span>
                     <Total>
-                        <Porcentaje width={p.health * por +'%'}/>
+                        <Porcentaje width={p.health * por}/>
                     </Total>
                 </Statics>
                 <Statics>
                     <label>Altura</label> <span>{p.height}</span>
                     <Total>
-                        <Porcentaje width={p.height * por +'%'}/>
+                        <Porcentaje width={p.height * por *10}/>
                     </Total>
                 </Statics>
                 <Statics>
                     <label>Velocidad</label> <span>{p.speed}</span>
                     <Total>
-                        <Porcentaje width={p.speed * por +'%'}/>
+                        <Porcentaje width={p.speed * por }/>
                     </Total>
                 </Statics>
                
                 <ul>{!p.created ? p.types.map(t =>  <li key={t}>{t}</li>) : p.types.map(t =>  <li key={t.name}>{t.name}</li>)}</ul>
             </TarjetaD>
             : <div>Waiting</div>} 
-            <Link to='/home'><Button>Home</Button></Link>
+            <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
         </Container>
     )
 }

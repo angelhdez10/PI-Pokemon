@@ -5,6 +5,8 @@ import {
     GET_FILTER,
     ORDER,
     GET_ID,
+    CREATED,
+    CLEAN,
     POST_POKEMON
  } from '../constantes'
  import axios from 'axios'
@@ -73,12 +75,12 @@ export const getTypes = () => {
 export const postPokemon = (pokemon) => {
     try{
         return async dispatch =>{
-            console.log(pokemon)
             const response = await axios.post('http://localhost:3001/pokemons', pokemon)
-            console.log(response)
+            const data = response.data
+            console.log(data)
             dispatch({
                 type: POST_POKEMON,
-                payload: response.data
+                payload: data
             })
         }
     }catch(e){
@@ -106,5 +108,23 @@ export const orderBy = (order) => {
         }
     }catch(e){
         throw new Error(e)
+    }
+}
+
+export const createdPok = (value) => {
+    return dispatch => {
+        dispatch({
+            type: CREATED,
+            payload: value
+        })
+    }
+}
+
+export const cleanPokemon = () => {
+    return dispatch => {
+        dispatch({
+            type: CLEAN,
+            payload: []
+        })
     }
 }

@@ -5,14 +5,17 @@ import {
     GET_FILTER,
     ORDER,
     GET_ID,
-    POST_POKEMON
+    CREATED,
+    POST_POKEMON,
+    CLEAN
 } from '../constantes'
 
 const initialState = {
     allPokemons: [],
     pokemons: [],
     pokemon: [],
-    types:[]
+    types:[],
+    loading: false
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -46,10 +49,15 @@ const rootReducer = (state = initialState, action) => {
                 pokemons: filtered,
                 /* filter:  tipo === 'seleccionar' || creado === 'seleccionar' ? false : true  */
             }
+            
+            
         case POST_POKEMON:
+            console.log(action.payload)
             return { 
-                ...state
+                ...state,
+                pokemons: [...state.pokemons, action.payload]
             }
+
         case ORDER:
             let sorteado = []
             if(action.payload === 'asc'){
@@ -64,10 +72,21 @@ const rootReducer = (state = initialState, action) => {
             }else{
                 sorteado = state.pokemons
             }
-            console.log(sorteado)
             return {
                 ...state,
                 pokemons: sorteado
+            }
+        case CREATED:
+            let created = []
+            action.payload === 'seleccionar' ? created = state.allPokemons : created = action.payload === 'db' ? state.pokemons.filter(p => p.created) : state.pokemons.filter(p => !p.created)
+            return{
+                ...state,
+                pokemons: created
+            }
+        case CLEAN:
+            return{
+                ...state,
+                pokemon: action.payload
             }
         default:
             return {

@@ -4,8 +4,8 @@ import Card from './Card'
 const Div = styled.div`
     display: inline-flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    column-count: 4;
+    justify-content: space-between;
+    column-count: 3;
 `
 
 const Cards = ({pokemons}) => {
