@@ -5,6 +5,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { cleanPokemon, getPokemonById } from '../actions'
 import Button from '../styled/Button'
+import { Eliminar } from './Pokemon'
 
 
 export const Statics = styled.div`
@@ -33,6 +34,12 @@ export const Total = styled.div`
     background-color: white;
 `
 
+const Borrar = styled(Eliminar)`
+    position: absolute;
+    right: 5px;
+    top: 5px;
+`
+
 export const Porcentaje = styled.div` 
     height: inherit;
     border-radius:5px;
@@ -53,7 +60,9 @@ export const Porcentaje = styled.div`
 
 `
 
+
 export const TarjetaD = styled(Tarjeta)`
+    position: relative;
     display: flex;
     width:480px;
     height: auto;
@@ -73,12 +82,23 @@ const Details = () => {
         dispatch(getPokemonById(params.id))
     }, [])
     let p = pokemon[0];
-    console.log(p)
     const por = 100 / 200
+
+    const handleDelete = (e) => {
+        e.preventDefault()
+        if(window.confirm('Estas seguro de borrar el registro?')){
+            alert('Registro Borrado')
+        }
+        else{
+            console.log('gay')
+        }
+    }
+
     return (
         <Container>
             { p ?
             <TarjetaD>
+                <Borrar onClick={handleDelete}>x</Borrar>
                 <h1>{p.id}</h1>
                 <img src={p.image} alt='Not found'/>
                 <h1>{p.name}</h1>
@@ -101,22 +121,31 @@ const Details = () => {
                     </Total>
                 </Statics>
                 <Statics>
+                    <label>Velocidad</label> <span>{p.speed}</span>
+                    <Total>
+                        <Porcentaje width={p.speed * por }/>
+                    </Total>
+                </Statics>
+                <Statics>
                     <label>Altura</label> <span>{p.height}</span>
                     <Total>
                         <Porcentaje width={p.height * por *10}/>
                     </Total>
                 </Statics>
                 <Statics>
-                    <label>Velocidad</label> <span>{p.speed}</span>
+                    <label>Peso</label> <span>{p.weight}</span>
                     <Total>
-                        <Porcentaje width={p.speed * por }/>
+                        <Porcentaje width={p.weight * por *0.2}/>
                     </Total>
                 </Statics>
-               
+               <label>Types:</label>
                 <ul>{!p.created ? p.types.map(t =>  <li key={t}>{t}</li>) : p.types.map(t =>  <li key={t.name}>{t.name}</li>)}</ul>
+                {p.hasOwnProperty('created') ? <Link to={`/modified/${p.id}`}><button>Modifed</button></Link> : null} <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
             </TarjetaD>
+             
             : <div>Waiting</div>} 
-            <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
+            
+           
         </Container>
     )
 }

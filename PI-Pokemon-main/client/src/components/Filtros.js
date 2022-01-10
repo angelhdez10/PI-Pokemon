@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import Filtro from './Filtro'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useState } from 'react'
 import { filtrado, orderBy, createdPok } from '../actions'
 
 const Div = styled.div`
@@ -14,13 +16,25 @@ const Div = styled.div`
 const Filtros = () => {
     const types = useSelector(state => state.types)
     const dispatch = useDispatch()
-    /* const [filtro, setFiltro] = useState({
+    const [filtro, setFiltro] = useState({
         ordenar: 'seleccionar',
         tipo: 'seleccionar',
         creado: 'seleccionar',
-    }) */
+    })
 
-    const handleType = (e) => {
+    useEffect(() => {
+        dispatch(filtrado(filtro))
+    }, [filtro])
+
+    const handleChange = (e) => {
+        setFiltro({
+            ...filtro,
+            [e.target.name] : e.target.value
+        })
+       
+    }
+
+    /* const handleType = (e) => {
         dispatch(filtrado(e.target.value))
     }
 
@@ -31,11 +45,7 @@ const Filtros = () => {
 
     const handleCreated = (e) => {
         dispatch(createdPok(e.target.value))
-    }
-
-   
-    
-    
+    } */
     return ( 
         <Div>
             <Filtro 
@@ -46,14 +56,14 @@ const Filtros = () => {
                 desc='descendente' 
                 more='Powerfull'
                 less='Weakness'
-                onChange={handleSort} 
+                onChange={handleChange} 
             />
             <Filtro 
                 label='Tipo'
                 name='tipo'
                 seleccionar='seleccionar'
                 types={types}
-                onChange={handleType}
+                onChange={handleChange}
                 />
             <Filtro 
                 label={'Creado'} 
@@ -61,7 +71,7 @@ const Filtros = () => {
                 seleccionar='--seleccionar--'
                 api='Api'
                 db='Creado'
-                onChange={handleCreated}
+                onChange={handleChange}
                 />
         </Div>
     )

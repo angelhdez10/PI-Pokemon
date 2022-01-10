@@ -7,7 +7,8 @@ import {
     GET_ID,
     CREATED,
     CLEAN,
-    POST_POKEMON
+    POST_POKEMON,
+    UPDATE
  } from '../constantes'
  import axios from 'axios'
 
@@ -88,6 +89,21 @@ export const postPokemon = (pokemon) => {
     }
 }
 
+export const updatePokemon = (pokemon) => {
+    try{
+        return async dispatch =>{
+            const response = await axios.put('http://localhost:3001/pokemons/modify', pokemon)
+            const data = response.data[0];
+            dispatch({
+                type: UPDATE,
+                payload: data
+            })
+        }
+    }catch(e){
+
+    }
+}
+
 
 export const filtrado = (tipo) => {
     return dispatch => {
@@ -96,6 +112,17 @@ export const filtrado = (tipo) => {
             payload: tipo
         })
     }
+   
+       /*  return async dispatch => {
+        const response = await axios.get(`http://localhost:3001/pokemons/filtrado/?ordenar=${tipo.ordenar}&tipo=${tipo.tipo}&creado=${tipo.creado}` )
+        const data = response.data
+        console.log(data)
+        dispatch({
+            type: GET_FILTER,
+            payload: data
+        })
+        } */
+    
 }
 
 export const orderBy = (order) => {

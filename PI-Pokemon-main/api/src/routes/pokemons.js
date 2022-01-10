@@ -2,7 +2,9 @@ const express = require('express')
 const axios = require('axios')
 const { Pokemon, Type } = require('../db')
 const { Router } = require('express')
+const types = require('./types')
 let pokemon = express.Router()
+
 
 let pokemons = []
 
@@ -33,7 +35,7 @@ const getPokemons = async () => {
                 defense:p.data.stats[2].base_stat,
                 speed: p.data.stats[5].base_stat,
                 height: p.data.height,
-                weigth: p.data.weigth,
+                weight: p.data.weight,
                 types: p.data.types.map(t => t.type.name),
                 image: p.data.sprites.front_default,                
             }))
@@ -64,7 +66,7 @@ const getPokemonsDb = async () => {
 
 const allPokemons = async () => {
     try{
-        const api = /* pokemons.length ? pokemons : */ await getPokemons()
+        const api = /* pokemonApi.length ? pokemonApi : */ await getPokemons()
         const db = await getPokemonsDb()
         const all = api.concat(db)
         pokemons = all
@@ -83,15 +85,34 @@ pokemon.get('/', async (req, res) => {
             name = name.toLowerCase();
             const pokemon = pokemons.filter(p => p.name.toLowerCase() === name)
            /*  pokemon.length ? res.json(pokemon) : res.status(404).send('Pokemon not exists') */
-           res.json(pokemon)
+           res.status(200).json(pokemon)
         }else{
-            res.json(pokemons)
+            res.status(200).json(pokemons)
         }
     }catch(e){
         res.status(500).send('Error on server')
         throw new Error(e)
     }
 })
+
+/* pokemon.get('/filtrado', (req, res) => {
+    let { ordenar, tipo, creado } = req.query;
+    try{
+        if(ordenar === 'seleccionar' && tipo === 'seleccionar' && creado === 'seleccionar'){
+            res.json(pokemons)
+        }else{
+            let filtrado = pokemons.filter(p => {
+                if(tipo !== 'seleccionar' ){
+                    if(p.created){
+                        return 
+                    }
+                }  
+            })
+        }
+    }catch(e){
+
+    }
+}) */
 
 /* pokemon.get('/types', async (req, res) => {
     let { type } = req.query;
@@ -166,6 +187,51 @@ pokemon.post('/', async (req, res) => {
         throw new Error(e)
     }
 })
+
+pokemon.put('/modify', async (req, res)=> {
+    const { id, name, health, strength, defense, speed, height, weight,
+        image, types } = req.body;
+    
+    try{
+        const pokemonUp = await Pokemon.update({ 
+            name : name,
+            health: health,
+            strength: strength,
+            defense: defense,
+            speed: speed,
+            height: height,
+            weight: weight,
+            image: image,
+        }, {
+            where: {
+                id : id
+            }
+        })
+
+        const pokemonOld = await Pokemon.findOne({
+            where: {id : id},
+            include: Type
+        })
+        let typesNew = await Type.findAll({
+            where: { name: types}
+        })
+        let pokemonsOld = pokemons.filter((p) => p.id === id)
+        const oldTypes = await pokemonOld.setTypes(typesNew)
+        const Pokemons = await Pokemon.findAll({
+            include: Type,
+            where: {id : id}
+        })
+        pokemons[pokemons.indexOf(pokemonsOld[0])] = Pokemons[0]
+        /* const oldTypes = await pokemonUp.getTypes()
+        console.log(oldTypes)
+        console.log(pokemonUp) */
+        res.json(Pokemons)
+    }catch(e){
+        throw new Error(e);
+    }
+})
+
+
 
 
 

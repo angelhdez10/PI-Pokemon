@@ -18,7 +18,6 @@ const Home = () => {
     const indexL = pages.page*pages.pokemonPerPage;
     const indexF = indexL - pages.pokemonPerPage;
     const paginas = Math.ceil(pokemons.length/pages.pokemonPerPage)
-    console.log(pokemons)
     const pokemonRender = pokemons.slice(indexF, indexL)
 
     useEffect(() => {

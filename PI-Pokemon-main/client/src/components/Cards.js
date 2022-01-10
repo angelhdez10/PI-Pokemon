@@ -5,7 +5,6 @@ const Div = styled.div`
     display: inline-flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    column-count: 3;
 `
 
 const Cards = ({pokemons}) => {

@@ -7,6 +7,7 @@ import {
     GET_ID,
     CREATED,
     POST_POKEMON,
+    UPDATE,
     CLEAN
 } from '../constantes'
 
@@ -41,24 +42,37 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 pokemon: action.payload
            }
+        
         case GET_FILTER:
-            const filtered = action.payload !== 'seleccionar' ? state.allPokemons.filter((p) => !p.created ? p.types.includes(action.payload) : p.types.filter(t => { return t.name === action.payload}).length ? true : null) : state.allPokemons
-            console.log(filtered)
+            let  { creado, tipo, ordenar } = action.payload
+            let tipos = tipo === 'seleccionar' ? [...state.allPokemons] : state.allPokemons.filter(p => !p.created ? p.types.includes(tipo) : p.types.filter(p => p.name === tipo).length ? true : false)
+            let creados = creado === 'seleccionar' ? tipos : creado === 'api' ? tipos.filter(p => !p.created) : tipos.filter(p => p.created)
+            let ordenado = ordenar === 'seleccionar' ? creados 
+            : ordenar === 'asc' ? creados.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0) 
+            : ordenar === 'desc' ? creados.sort((a,b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0)
+            : ordenar === 'less' ? creados.sort((a,b) => a.strength - b.strength) 
+            : creados.sort((a,b) => a.strength - b.strength).reverse()
+            ordenado = (tipo === 'seleccionar' && creado === 'seleccionar' && ordenar === 'seleccionar') ? state.allPokemons : ordenado
+            const filtered = ordenado
             return {
                 ...state,
                 pokemons: filtered,
-                /* filter:  tipo === 'seleccionar' || creado === 'seleccionar' ? false : true  */
+               
             }
             
             
         case POST_POKEMON:
-            console.log(action.payload)
             return { 
                 ...state,
                 pokemons: [...state.pokemons, action.payload]
             }
-
-        case ORDER:
+        case UPDATE:
+                console.log(action.payload)
+                return {
+                    ...state,
+                    pokemon: [action.payload]
+                }
+       /*  case ORDER:
             let sorteado = []
             if(action.payload === 'asc'){
                sorteado = state.pokemons.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0) 
@@ -75,14 +89,14 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pokemons: sorteado
-            }
-        case CREATED:
+            } */
+        /* case CREATED:
             let created = []
             action.payload === 'seleccionar' ? created = state.allPokemons : created = action.payload === 'db' ? state.pokemons.filter(p => p.created) : state.pokemons.filter(p => !p.created)
             return{
                 ...state,
                 pokemons: created
-            }
+            } */
         case CLEAN:
             return{
                 ...state,

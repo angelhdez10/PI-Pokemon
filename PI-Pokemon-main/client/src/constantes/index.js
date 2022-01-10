@@ -7,6 +7,7 @@ const ORDER = 'ORDER'
 const GET_ID = 'GET_ID'
 const CREATED = 'CREATED'
 const CLEAN = 'CLEAN'
+const UPDATE = 'UPDATE'
 
 module.exports = {
     GET_POKEMON,
@@ -17,5 +18,6 @@ module.exports = {
     GET_ID,
     CREATED,
     CLEAN,
-    POST_POKEMON
+    POST_POKEMON,
+    UPDATE
 }
