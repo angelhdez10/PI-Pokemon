@@ -8,7 +8,8 @@ import {
     CREATED,
     CLEAN,
     POST_POKEMON,
-    UPDATE
+    UPDATE,
+    DELETE
  } from '../constantes'
  import axios from 'axios'
 
@@ -81,6 +82,21 @@ export const postPokemon = (pokemon) => {
             console.log(data)
             dispatch({
                 type: POST_POKEMON,
+                payload: data
+            })
+        }
+    }catch(e){
+        throw new Error(e)
+    }
+}
+
+export const deletePokemon = (id) => {
+    try{
+        return async dispatch => {
+            const response = await axios.delete(`http://localhost:3001/pokemons/delete?id=${id}`)
+            const data = response.data
+            dispatch({
+                type: DELETE,
                 payload: data
             })
         }

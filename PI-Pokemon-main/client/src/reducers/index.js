@@ -8,7 +8,8 @@ import {
     CREATED,
     POST_POKEMON,
     UPDATE,
-    CLEAN
+    CLEAN,
+    DELETE
 } from '../constantes'
 
 const initialState = {
@@ -72,6 +73,16 @@ const rootReducer = (state = initialState, action) => {
                     ...state,
                     pokemon: [action.payload]
                 }
+        case DELETE:
+            /* console.log(action.payload)
+            const pokemonsNew = state.pokemons.filter(p => !p.id === action.payload.id)
+            console.log(pokemonsNew) */
+            const pokemonsNew = state.pokemons.filter(p => p.id !== action.payload.id)
+            console.log(pokemonsNew)
+            return {
+                ...state,
+                pokemons : pokemonsNew
+            }
        /*  case ORDER:
             let sorteado = []
             if(action.payload === 'asc'){

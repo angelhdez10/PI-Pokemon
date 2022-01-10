@@ -1,9 +1,9 @@
 import Tarjeta from '../styled/Tarjeta'
 import styled from 'styled-components'
 import { useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { cleanPokemon, getPokemonById } from '../actions'
+import { cleanPokemon, deletePokemon, getPokemonById } from '../actions'
 import Button from '../styled/Button'
 import { Eliminar } from './Pokemon'
 
@@ -75,7 +75,8 @@ export const TarjetaD = styled(Tarjeta)`
 `
 
 const Details = () => {
-    const params = useParams()
+    const params = useParams();
+    const navigate = useNavigate()
     const { pokemon } = useSelector(state => state)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -87,7 +88,9 @@ const Details = () => {
     const handleDelete = (e) => {
         e.preventDefault()
         if(window.confirm('Estas seguro de borrar el registro?')){
+            dispatch(deletePokemon(p.id))
             alert('Registro Borrado')
+            navigate('/home')
         }
         else{
             console.log('gay')

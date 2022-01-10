@@ -222,12 +222,32 @@ pokemon.put('/modify', async (req, res)=> {
             where: {id : id}
         })
         pokemons[pokemons.indexOf(pokemonsOld[0])] = Pokemons[0]
-        /* const oldTypes = await pokemonUp.getTypes()
-        console.log(oldTypes)
-        console.log(pokemonUp) */
+        
         res.json(Pokemons)
     }catch(e){
         throw new Error(e);
+    }
+})
+
+pokemon.delete('/delete', async (req, res) => {
+    console.log('Hola')
+    let { id } = req.query
+    console.log('Hola')
+    try {
+        if(id){
+            const pokemonDelete = await Pokemon.findOne({
+                where: { id : id}
+            })
+            await Pokemon.destroy({
+                where :{ 
+                    id : id
+                }
+            })
+            pokemons = pokemons.filter(p => !p.id === id)
+            res.json(pokemonDelete)
+        }
+    }catch(e){
+        throw new Error(e)
     }
 })
 
