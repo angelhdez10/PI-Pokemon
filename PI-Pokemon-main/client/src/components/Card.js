@@ -22,6 +22,12 @@ export const FrontCard = styled.div`
         position: relative;
         top: -35px;
     }
+
+    #nombre {
+        font-size: 20px;
+        font-weight: 700;
+        color: black;
+    }
 `
 export const BackCard = styled(FrontCard)`
     display: flex;
@@ -47,8 +53,8 @@ const Card = ({ pokemon }) => {
              <TarjetaM> 
                 <FrontCard className={'front'}>
                     <img src={pokemon.image ? pokemon.image : pokeball} alt={'Not Found'} height='100px'/>
-                    <label>{pokemon.name}</label>
-                    <label>{pokemon.strength}</label>
+                    <label id={'nombre'}>{pokemon.name}</label>
+                    <label>Attack: {pokemon.strength}</label>
                 </FrontCard>
                 <BackCard className={'back'}>
                     <span>Types:</span> 

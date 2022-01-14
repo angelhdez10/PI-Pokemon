@@ -72,6 +72,7 @@ const Pokemon = ({pokemonExistent}) => {
     }
 
     const handleChange = (e) => {
+        e.preventDefault()
        if(e.target.name === 'name'){
            let expresion = /[^a-z]/i
            let coincidencias = e.target.value !== '' ? e.target.value.match(expresion) : []
