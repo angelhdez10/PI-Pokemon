@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Porcentaje } from "./Details";
 
 export const Container = styled.div`
     width: 90%;
@@ -53,7 +54,7 @@ const Input = ({label, name,value, onChange, type, ...props}) => {
             name === 'name' ?
             <Wrapper> 
             <InVal value={value} name={name}  flag={props.flag}  placeholder={label + '...'} onChange={onChange} ></InVal>
-            <Validation flag={props.flag}>{props.invalid ? 'Invalid' : 'Required'}</Validation>
+            <Validation flag={props.flag}>{props.invalid ? 'Invalid' : props.existente ? 'Existe' : 'Required'}</Validation>
             </Wrapper> :
             <input value={value} name={name} placeholder={label + '...'} onChange={onChange} ></input>
             }

@@ -2,10 +2,10 @@ import Tarjeta, {TarjetaM} from '../styled/Tarjeta'
 import { Link } from 'react-router-dom'
 import  Button  from '../styled/Button'
 import styled from 'styled-components'
+import pokeball from '../pokeball.png'
 
 
-
-const FrontCard = styled.div`
+export const FrontCard = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
@@ -23,7 +23,7 @@ const FrontCard = styled.div`
         top: -35px;
     }
 `
-const BackCard = styled(FrontCard)`
+export const BackCard = styled(FrontCard)`
     display: flex;
     justify-content: space-between;
     align-items: space-between;
@@ -46,7 +46,7 @@ const Card = ({ pokemon }) => {
            
              <TarjetaM> 
                 <FrontCard className={'front'}>
-                    <img src={pokemon.image} alt='Not found' height='100px'/>
+                    <img src={pokemon.image ? pokemon.image : pokeball} alt={'Not Found'} height='100px'/>
                     <label>{pokemon.name}</label>
                     <label>{pokemon.strength}</label>
                 </FrontCard>

@@ -6,10 +6,10 @@ import { useState } from 'react'
 import { filtrado, orderBy, createdPok } from '../actions'
 
 const Div = styled.div`
-    background-color: #00000010;
+    background-color: #00000000;
     display:flex;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
 `
 
 

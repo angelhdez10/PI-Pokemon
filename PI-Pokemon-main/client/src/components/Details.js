@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { cleanPokemon, deletePokemon, getPokemonById } from '../actions'
 import Button from '../styled/Button'
 import { Eliminar } from './Pokemon'
+import image from '../pokeball.png'
 
 
 export const Statics = styled.div`
@@ -72,6 +73,33 @@ export const TarjetaD = styled(Tarjeta)`
     /* margin: auto; */
     background-color: #212121;
     color: #eee;
+
+    label {
+        width: 15%;
+    }
+
+    span{
+        text-align:center;
+        width: 15%;
+    }
+
+    img:hover{
+        transition: all 1s ease;
+        transform: scale(1.3);
+    }
+
+    img{
+        transition: all 1s ease;
+        transform: scale(1);
+    }
+`
+
+export const Mod = styled.button`
+    cursor: pointer;
+    border: none;
+    border-radius: 15px;
+    background-color: #3979e5;
+    color: white;
 `
 
 const Details = () => {
@@ -92,18 +120,15 @@ const Details = () => {
             alert('Registro Borrado')
             navigate('/home')
         }
-        else{
-            console.log('gay')
-        }
     }
 
     return (
         <Container>
             { p ?
             <TarjetaD>
-                <Borrar onClick={handleDelete}>x</Borrar>
+                {p.created ? <Borrar onClick={handleDelete}>x</Borrar> : null}
                 <h1>{p.id}</h1>
-                <img src={p.image} alt='Not found'/>
+                <img src={p.image ? p.image : image} alt='Not found'  height={!p.image ? '100px' : p.image}/>
                 <h1>{p.name}</h1>
                 <Statics>
                     <label>Fuerza</label> <span>{p.strength}</span>
@@ -143,7 +168,7 @@ const Details = () => {
                 </Statics>
                <label>Types:</label>
                 <ul>{!p.created ? p.types.map(t =>  <li key={t}>{t}</li>) : p.types.map(t =>  <li key={t.name}>{t.name}</li>)}</ul>
-                {p.hasOwnProperty('created') ? <Link to={`/modified/${p.id}`}><button>Modifed</button></Link> : null} <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
+                {p.hasOwnProperty('created') ? <Link to={`/modified/${p.id}`}><Mod>Modifed</Mod></Link> : null} <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
             </TarjetaD>
              
             : <div>Waiting</div>} 

@@ -3,6 +3,9 @@ import styled from 'styled-components'
 const Pagina = styled.button`
     height: 25px;
     width: 25px;
+    border: none;
+    border-radius: 5px;
+    margin: 0 2.5px 0 2.5px;
     cursor: pointer;
     background-color: ${props => ( props.actual === props.numero ? '#ffff': '#ffffff10') };    
 `

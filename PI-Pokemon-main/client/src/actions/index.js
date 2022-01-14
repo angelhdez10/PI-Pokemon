@@ -3,21 +3,26 @@ import {
     GET_POKEMON,
     GET_TYPES,
     GET_FILTER,
-    ORDER,
+/*     ORDER, */
     GET_ID,
-    CREATED,
+/*     CREATED, */
     CLEAN,
     POST_POKEMON,
     UPDATE,
-    DELETE
+    DELETE,
+/*     WARNING */
  } from '../constantes'
  import axios from 'axios'
 
  export const getPokemons =  () => {
      try{
         return  async function(dispatch){
-        const response = await axios.get('http://localhost:3001/pokemons')
-        const data = response.data
+            dispatch({
+                type: GET_POKEMONS,
+                payload: 'charging'
+            })
+            const response = await axios.get('http://localhost:3001/pokemons')
+            const data = response.data
         
             dispatch({
                 type: GET_POKEMONS,
@@ -79,7 +84,6 @@ export const postPokemon = (pokemon) => {
         return async dispatch =>{
             const response = await axios.post('http://localhost:3001/pokemons', pokemon)
             const data = response.data
-            console.log(data)
             dispatch({
                 type: POST_POKEMON,
                 payload: data
@@ -141,7 +145,7 @@ export const filtrado = (tipo) => {
     
 }
 
-export const orderBy = (order) => {
+/* export const orderBy = (order) => {
     try {
         return dispatch => {
             dispatch({
@@ -152,16 +156,16 @@ export const orderBy = (order) => {
     }catch(e){
         throw new Error(e)
     }
-}
+} */
 
-export const createdPok = (value) => {
+/* export const createdPok = (value) => {
     return dispatch => {
         dispatch({
             type: CREATED,
             payload: value
         })
     }
-}
+} */
 
 export const cleanPokemon = () => {
     return dispatch => {
@@ -171,3 +175,12 @@ export const cleanPokemon = () => {
         })
     }
 }
+
+/* export const clearWarning = () => {
+    return dispatch => {
+        dispatch({
+            type: WARNING,
+            payload: ''
+        })
+    }
+} */

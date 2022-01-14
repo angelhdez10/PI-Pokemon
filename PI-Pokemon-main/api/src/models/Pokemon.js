@@ -31,37 +31,61 @@ module.exports = (sequelize) => {
         health: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 50
+            defaultValue: 50,
+            validate: {
+                min: 1,
+                max: 200
+            }
         },
 
         strength : {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 50
+            defaultValue: 50,
+            validate: {
+                min: 1,
+                max: 200
+            }
         },
         
         defense: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 50
+            defaultValue: 50,
+            validate: {
+                min: 1,
+                max: 200
+            }
         },
 
         speed: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 50
+            defaultValue: 50,
+            validate: {
+                min: 1,
+                max: 200
+            }
         },
 
         height: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 75
+            defaultValue: 10,
+            validate: {
+                min: 1,
+                max: 20
+            }
         },
 
         weight: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 25
+            defaultValue: 25,
+            validate: {
+                min: 1,
+                max: 1000
+            }
         },
         
         image: {

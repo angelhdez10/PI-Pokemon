@@ -138,9 +138,9 @@ pokemon.get('/:id', async (req, res) => {
             /* const pokemons = await allPokemons() */
             pokemons.length !== 0 ? pokemons : await allPokemons()
             const pokemon = pokemons.filter(p => p.id == id)
-            pokemon.length ? res.json(pokemon) : res.status(404).send('Pokemon not find')
+            pokemon.length ? res.json(pokemon) : res.status(200).json({msg : 'Pokemon not find'})
         }else {
-            res.status(500).send('id no especificado')
+            res.status(404).json({msg : 'ID not find on DB and API'})
         }
     }catch(e){
         throw new Error(e)
@@ -151,7 +151,7 @@ pokemon.post('/', async (req, res) => {
     const { name, health, strength, defense, speed, height, weight,
         image, types, created} = req.body
     try {
-            console.log(pokemons.length)
+            if(name){
             const existent = pokemons.filter(p => p.name === name)
             if(existent.length === 0){
                 let newPokemon = await Pokemon.create({
@@ -175,13 +175,14 @@ pokemon.post('/', async (req, res) => {
                     include: Type,
                     where: { name : name}
                 })
-                console.log(pokemons.length)
                 pokemons.push(newPokemon)
-                console.log(pokemons.length)
                 res.json(newPokemon)
             }else{
                 res.json({msg: 'Pokemon existent'})
             }
+        }else{
+            res.status(404).json({msg : 'Name not send'})
+        }
 
     }catch(e){
         throw new Error(e)

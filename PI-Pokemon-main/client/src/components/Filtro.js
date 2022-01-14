@@ -1,5 +1,3 @@
-
-
 const Filtro = ({label, name, onChange, ...props}) => {
     const opciones = []
     let flag = false;
@@ -15,12 +13,15 @@ const Filtro = ({label, name, onChange, ...props}) => {
             opciones.push(prop)
         }
     }
+
     return ( 
         <>
-        <label>{label}</label>
-        <select onChange={onChange} name={name}>
+        <label style={{'color':'white'}}>{label}</label>
+        <select style={{
+            'borderRadius':'14px'
+        }} onChange={onChange} name={name}>
             {opciones.map(o => (
-                <option key={flag ? o.id : o } value={flag ? o.name :o}>{flag ? o.name : props[o]}</option>
+                <option key={flag ? o.id : o } value={flag ? o.name :o}>{!flag ? props[o] : o.name === 'seleccionar' ? `--${o.name}--`: o.name}</option>
             ))}
         </select>
         </>

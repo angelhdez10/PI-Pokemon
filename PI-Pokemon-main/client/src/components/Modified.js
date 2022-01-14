@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getPokemonById } from '../actions'
 import Pokemon from './Pokemon'
+import  { Container } from './Details'
 
 const Modified = () => {
     const { pokemon } = useSelector(state => state)
@@ -16,7 +17,9 @@ const Modified = () => {
 
     return (
         <div>
-            {p ? <Pokemon pokemonExistent={p}/>  : null}
+            {p ? 
+                    <Pokemon pokemonExistent={p}/>
+                 : null}
         </div>
     )
 }

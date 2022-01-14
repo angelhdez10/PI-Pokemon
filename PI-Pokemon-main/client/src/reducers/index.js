@@ -3,13 +3,14 @@ import {
     GET_POKEMON,
     GET_TYPES,
     GET_FILTER,
-    ORDER,
+/*     ORDER, */
     GET_ID,
-    CREATED,
+ /*    CREATED, */
     POST_POKEMON,
     UPDATE,
     CLEAN,
-    DELETE
+    DELETE,
+  /*   WARNING */
 } from '../constantes'
 
 const initialState = {
@@ -17,17 +18,23 @@ const initialState = {
     pokemons: [],
     pokemon: [],
     types:[],
+    warning: "",
     loading: false
 }
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type){
+        
         case GET_POKEMONS:
-            return {
+            return action.payload === 'charging' ? ({
+                ...state,
+                loading: true
+            } ): ({
                 ...state,
                 allPokemons: action.payload,
-                pokemons: action.payload
-            }
+                pokemons: action.payload,
+                loading : false
+            })
         case GET_POKEMON:
             return {
                 ...state,
@@ -49,8 +56,8 @@ const rootReducer = (state = initialState, action) => {
             let tipos = tipo === 'seleccionar' ? [...state.allPokemons] : state.allPokemons.filter(p => !p.created ? p.types.includes(tipo) : p.types.filter(p => p.name === tipo).length ? true : false)
             let creados = creado === 'seleccionar' ? tipos : creado === 'api' ? tipos.filter(p => !p.created) : tipos.filter(p => p.created)
             let ordenado = ordenar === 'seleccionar' ? creados 
-            : ordenar === 'asc' ? creados.sort((a,b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0) 
-            : ordenar === 'desc' ? creados.sort((a,b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0)
+            : ordenar === 'asc' ? creados.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 0) 
+            : ordenar === 'desc' ? creados.sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 0)
             : ordenar === 'less' ? creados.sort((a,b) => a.strength - b.strength) 
             : creados.sort((a,b) => a.strength - b.strength).reverse()
             ordenado = (tipo === 'seleccionar' && creado === 'seleccionar' && ordenar === 'seleccionar') ? state.allPokemons : ordenado
@@ -60,15 +67,17 @@ const rootReducer = (state = initialState, action) => {
                 pokemons: filtered,
                
             }
-            
-            
         case POST_POKEMON:
-            return { 
+            return action.payload.msg ? {
                 ...state,
-                pokemons: [...state.pokemons, action.payload]
+                warning: "Pokemon existente"
+            } : { 
+                ...state,
+                pokemons: [...state.pokemons, action.payload],
+                warning : ''
             }
         case UPDATE:
-                console.log(action.payload)
+                
                 return {
                     ...state,
                     pokemon: [action.payload]
@@ -83,6 +92,12 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 pokemons : pokemonsNew
             }
+      /*   case WARNING:
+            console.log(action.payload)
+            return {
+                ...state,
+                warning: action.payload
+            } */
        /*  case ORDER:
             let sorteado = []
             if(action.payload === 'asc'){
