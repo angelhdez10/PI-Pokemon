@@ -17,7 +17,7 @@ export const TarjetaM =styled.div`
 
     &:hover {
         -webkit-transform: rotateY(0.5turn);
-        transform: rotateY(0.5turn)
+        transform: rotateY(0.5turn);
     }
 `
 
@@ -32,6 +32,8 @@ const Tarjeta = styled.div`
     flex-direction: column;
     align-items:center;
     justify-content: space-around;
+    transition: all 0.6s ease;
+
     
       
     a {

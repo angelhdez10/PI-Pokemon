@@ -100,6 +100,7 @@ export const Mod = styled.button`
     border-radius: 15px;
     background-color: #3979e5;
     color: white;
+    height: 25px;
 `
 
 const Details = () => {

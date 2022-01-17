@@ -43,7 +43,7 @@ const Input = ({label, name,value, onChange, type, ...props}) => {
     return (
         <Container>
             <label>{label}</label>
-            {type === 'range' ? <div><span>{value}</span> <input 
+            {type === 'range' ? <div><input style={{'width' : '45px'}} onBlur={props.onFocusOut} id={name} type='number' name={name} value={value} onChange={onChange}></input> <input 
                                                                 type='range'
                                                                 value={value} 
                                                                 name={name} 

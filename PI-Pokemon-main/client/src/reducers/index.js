@@ -18,7 +18,6 @@ const initialState = {
     pokemons: [],
     pokemon: [],
     types:[],
-    warning: "",
     loading: false
 }
 
@@ -68,13 +67,10 @@ const rootReducer = (state = initialState, action) => {
                
             }
         case POST_POKEMON:
-            return action.payload.msg ? {
-                ...state,
-                warning: "Pokemon existente"
-            } : { 
+            return { 
                 ...state,
                 pokemons: [...state.pokemons, action.payload],
-                warning : ''
+                
             }
         case UPDATE:
                 
@@ -83,9 +79,6 @@ const rootReducer = (state = initialState, action) => {
                     pokemon: [action.payload]
                 }
         case DELETE:
-            /* console.log(action.payload)
-            const pokemonsNew = state.pokemons.filter(p => !p.id === action.payload.id)
-            console.log(pokemonsNew) */
             const pokemonsNew = state.pokemons.filter(p => p.id !== action.payload.id)
             console.log(pokemonsNew)
             return {

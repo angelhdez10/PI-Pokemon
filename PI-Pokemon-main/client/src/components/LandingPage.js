@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import image from '../pokemon.jpg' 
+import image from '../landing.png' 
 import { Link } from 'react-router-dom'
 import Button from '../styled/Button'
 import poke from '../pokeball.png'

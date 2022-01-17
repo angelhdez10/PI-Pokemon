@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getPokemons, getTypes } from '../actions'
 import Filtros from './Filtros'
 import Charging from "./Charging"
+import Footer from "./Footer"
 
 
 
@@ -48,7 +49,7 @@ const Home = () => {
         <Container>
             <Header />
             {loading ? <Charging /> : <>
-                <Filtros />
+            <Filtros />
             <Paginado paginas={paginas} actual={pages.page} changePage={changePage}/>
             <Cards pokemons={pokemonRender} />
              </>}{/* 

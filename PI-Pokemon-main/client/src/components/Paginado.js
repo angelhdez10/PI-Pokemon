@@ -18,7 +18,7 @@ const Paginado = ({paginas, actual, changePage}) => {
     }
     
     return (    
-        <div style={{'marginTop': '10px'}}>
+        <div style={{'marginTop': '10px', 'marginBottom': '15px'}}>
             {numero?.map(p => (
                 <Pagina key={p} onClick={() => changePage(p)} numero={p} actual={actual} >{p}</Pagina>
             ))}
