@@ -7,6 +7,7 @@ import { cleanPokemon, deletePokemon, getPokemonById } from '../actions'
 import Button from '../styled/Button'
 import { Eliminar } from './Pokemon'
 import image from '../pokeball.png'
+import Charging from './Charging'
 
 
 export const Statics = styled.div`
@@ -110,7 +111,7 @@ const Details = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getPokemonById(params.id))
-    }, [])
+    },[])
     let p = pokemon[0];
     const por = 100 / 200
 
@@ -169,10 +170,10 @@ const Details = () => {
                 </Statics>
                <label>Types:</label>
                 <ul>{!p.created ? p.types.map(t =>  <li key={t}>{t}</li>) : p.types.map(t =>  <li key={t.name}>{t.name}</li>)}</ul>
-                {p.hasOwnProperty('created') ? <Link to={`/modified/${p.id}`}><Mod>Modifed</Mod></Link> : null} <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
+                {p.hasOwnProperty('created') ? <Link to={`/modified/${p.id}`}><Mod>Modify</Mod></Link> : null} <Link to='/home'><Button onClick={() => dispatch(cleanPokemon())}>Home</Button></Link>
             </TarjetaD>
              
-            : <div>Waiting</div>} 
+            : <Charging />} 
             
            
         </Container>

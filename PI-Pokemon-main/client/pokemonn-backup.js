@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import { getTypes, postPokemon, updatePokemon, getPokemons } from '../actions'
 import Charging from './Charging'
 import Error from './Error'
-import { $CombinedState } from 'redux'
 
 
 
@@ -115,35 +114,6 @@ const Pokemon = ({pokemonExistent}) => {
         }
         
     }
-
-    const handleRange = (e) => {        
-        if(e.target.name === 'height'){
-            setNewPokemon({
-                ...newPokemon,
-                height: e.target.value < 0 ? 1 : e.target.value > 20 ? 20 : e.target.value   
-            })
-        }else if(e.target.name === 'weight'){
-            setNewPokemon({
-                ...newPokemon,
-                weight: e.target.value < 0 ? 1 : e.target.value > 1000 ? 1000 : e.target.value   
-            })
-        }else{
-            setNewPokemon({
-                ...newPokemon,
-                [e.target.name]: e.target.value < 0 ? 1 : e.target.value > 200 ? 200 : e.target.value   
-            })
-        }
-    }
-
-    const onFocusOut = (e) => {
-        if(e.target.value === '' || e.target.value == 0){
-            setNewPokemon({
-                ...newPokemon,
-                [e.target.name]: pokemonExistent ? pokemonExistent[e.target.name] : e.target.name === 'height' ? 10 : e.target.name === 'weight' ? 25 : 50 
-            })
-        }
-    }
-
     newPokemon.types.length ? validTypes = true : validTypes = false 
     return (
         <Container>
@@ -164,49 +134,43 @@ const Pokemon = ({pokemonExistent}) => {
                         label='Fuerza'
                         name='strength'
                         type='range'
-                        onFocusOut = {onFocusOut}
                         value={newPokemon.strength}
-                        onChange={handleRange}
+                        onChange={handleChange}
                     />
                     <Input 
                         label='Velocidad'
                         name='speed'
                         type='range'
-                        onFocusOut = {onFocusOut}
                         value={newPokemon.speed}
-                        onChange={handleRange}
+                        onChange={handleChange}
                     />
                     <Input 
                         label='Defensa'
                         name='defense'
                         type='range'
-                        onFocusOut = {onFocusOut}
                         value={newPokemon.defense}
-                        onChange={handleRange}
+                        onChange={handleChange}
                     />
                     <Input 
                         label='Vida'
                         name='health'
                         type='range'
-                        onFocusOut = {onFocusOut}
                         value={newPokemon.health}
-                        onChange={handleRange}
+                        onChange={handleChange}
                     />
                     <Input 
                         label='Peso'
                         name='weight'
                         type='range'
-                        onFocusOut = {onFocusOut}
                         value={newPokemon.weight}
-                        onChange={handleRange}
+                        onChange={handleChange}
                     />
                     <Input 
                         label='Altura'
                         name='height'
                         type='range'
                         value={newPokemon.height}
-                        onFocusOut = {onFocusOut}
-                        onChange={handleRange}
+                        onChange={handleChange}
                     />
                     <Input 
                         label='Imagen'

@@ -17,7 +17,7 @@ function App() {
         <Route exact path='/' element={<LandingPage/>}/>
         <Route path='/home' element={<Home />}/>  
         <Route path='/details/:id' element={<Details />} />
-        <Route path='/create' element={<Form />} />
+        <Route path='/create' element={<Pokemon />} />
         <Route path='/modified/:id' element={<Modified/>} />
         <Route path='*' element={<RouteWrong/>} />
       </Routes>

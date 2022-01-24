@@ -52,10 +52,7 @@ const Home = () => {
             <Filtros />
             <Paginado paginas={paginas} actual={pages.page} changePage={changePage}/>
             <Cards pokemons={pokemonRender} />
-             </>}{/* 
-            <Filtros />
-            <Paginado paginas={paginas} actual={pages.page} changePage={changePage}/>
-            <Cards pokemons={pokemonRender} /> */}
+             </>
         </Container>
     )
 }

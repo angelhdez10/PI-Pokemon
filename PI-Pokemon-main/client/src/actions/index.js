@@ -75,7 +75,7 @@ import {
 export const getPokemonById = (id) => {
     try{
         return async dispatch => {
-            /*---Async Await---------------------------------------------------------------------------*/
+                        /*---Async Await---------------------------------------------------------------------------*/
             const response = await axios.get(`http://localhost:3001/pokemons/${id}`)
             const data = response.data
             

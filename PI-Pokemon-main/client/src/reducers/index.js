@@ -23,7 +23,7 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type){
-        
+       
         case GET_POKEMONS:
             return action.payload === 'charging' ? ({
                 ...state,
@@ -35,7 +35,7 @@ const rootReducer = (state = initialState, action) => {
                 loading : false
             })
         case GET_POKEMON:
-            return {
+            return  {
                 ...state,
                 pokemons: action.payload
             }
@@ -52,14 +52,15 @@ const rootReducer = (state = initialState, action) => {
         
         case GET_FILTER:
             let  { creado, tipo, ordenar } = action.payload
-            let tipos = tipo === 'seleccionar' ? [...state.allPokemons] : state.allPokemons.filter(p => !p.created ? p.types.includes(tipo) : p.types.filter(p => p.name === tipo).length ? true : false)
-            let creados = creado === 'seleccionar' ? tipos : creado === 'api' ? tipos.filter(p => !p.created) : tipos.filter(p => p.created)
-            let ordenado = ordenar === 'seleccionar' ? creados 
+            //tipo = ["grass", "poison"]
+            let tipos = tipo === 'All' ? [...state.allPokemons] : state.allPokemons.filter(p => !p.created ? p.types.includes(tipo) : p.types.filter(p => p.name === tipo).length ? true : false)
+            let creados = creado === 'All' ? tipos : creado === 'api' ? tipos.filter(p => !p.created) : tipos.filter(p => p.created)
+            let ordenado = ordenar === 'All' ? creados 
             : ordenar === 'asc' ? creados.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 0) 
             : ordenar === 'desc' ? creados.sort((a,b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 0)
             : ordenar === 'less' ? creados.sort((a,b) => a.strength - b.strength) 
             : creados.sort((a,b) => a.strength - b.strength).reverse()
-            ordenado = (tipo === 'seleccionar' && creado === 'seleccionar' && ordenar === 'seleccionar') ? state.allPokemons : ordenado
+            ordenado = (tipo === 'All' && creado === 'All' && ordenar === 'All') ? state.allPokemons : ordenado
             const filtered = ordenado
             return {
                 ...state,

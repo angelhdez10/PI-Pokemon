@@ -1,7 +1,9 @@
 const express = require('express')
 const axios = require('axios')
-const { Type } = require('../db')
+const { Type } = require('../db')/* 
+const { Sequelize } = require('sequelize/dist') */
 const types = express.Router()
+
 
 const getTypes = async () => {
     try{
@@ -16,14 +18,18 @@ const getTypes = async () => {
 types.get('/', async (req,res) => {
     try {
         const types = await getTypes()
-        const types1 = types.map(t => t.name)
-        types1.forEach(async t => (
-            await Type.findOrCreate({
-                where: {name : t}
+        await types.forEach(async t => { 
+            const [type, created] = await Type.findOrCreate({
+                where: { name : t.name}
             })
-        ))
+            
+        })
+       
         let typesDb = await Type.findAll()
-        res.send(typesDb)
+        
+        res.json(typesDb)
+        
+                
     }catch(e){
         throw new Error(e)
     }

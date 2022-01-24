@@ -15,11 +15,6 @@ const getPokemons = async () => {
         const response2 = await axios.get(`${response.data.next}`)
         const data2 = response2.data.results
         const data = [...data1, ...data2]
-       /*  const details = data.map(async (p) => {
-            const detail = await axios.get(`${p.url}`)
-            console.log(detail.data)
-            return detail.data
-        }) */
         let detail = []
         for(let x = 0; x< data.length; x++){
             let pokemon = data[x];
@@ -40,6 +35,7 @@ const getPokemons = async () => {
                 image: p.data.sprites.front_default,                
             }))
         ))
+        
         return detalles
     }catch(e){
         throw new Error(e)
@@ -56,9 +52,16 @@ const getPokemons = async () => {
 
 const getPokemonsDb = async () => {
     try{
+        /*---------------------Async Await -------------------*/
         return await Pokemon.findAll({
             include: Type
         })
+        /*---------------------Async Await -------------------*/
+        /*---------------------Then -------------------*/
+       /*  return Pokemon.findAll({
+            include: Type
+        }).then((resultados) => resultados) */
+        /*---------------------Then -------------------*/
     }catch(e){
         throw new Error(e)
     }
@@ -66,11 +69,14 @@ const getPokemonsDb = async () => {
 
 const allPokemons = async () => {
     try{
-        const api = /* pokemonApi.length ? pokemonApi : */ await getPokemons()
+        const api = await getPokemons()
         const db = await getPokemonsDb()
         const all = api.concat(db)
         pokemons = all
         return all
+        /* const all = getPokemons().then(api => api)
+        console.log(all)
+        return all */
     }catch(e){
         throw new Error(e)
     }
@@ -84,52 +90,23 @@ pokemon.get('/', async (req, res) => {
         if(name){
             name = name.toLowerCase();
             const pokemon = pokemons.filter(p => p.name.toLowerCase() === name)
-           /*  pokemon.length ? res.json(pokemon) : res.status(404).send('Pokemon not exists') */
            res.status(200).json(pokemon)
         }else{
             res.status(200).json(pokemons)
         }
+        /* await allPokemons()
+        if(name){
+            name = name.toLowerCase();
+            const pokemon = pokemons.filter(p => p.name.toLowerCase() === name)
+           res.status(200).json(pokemon)
+        }else{
+            res.status(200).json(pokemons)
+        } */
     }catch(e){
         res.status(500).send('Error on server')
         throw new Error(e)
     }
 })
-
-/* pokemon.get('/filtrado', (req, res) => {
-    let { ordenar, tipo, creado } = req.query;
-    try{
-        if(ordenar === 'seleccionar' && tipo === 'seleccionar' && creado === 'seleccionar'){
-            res.json(pokemons)
-        }else{
-            let filtrado = pokemons.filter(p => {
-                if(tipo !== 'seleccionar' ){
-                    if(p.created){
-                        return 
-                    }
-                }  
-            })
-        }
-    }catch(e){
-
-    }
-}) */
-
-/* pokemon.get('/types', async (req, res) => {
-    let { type } = req.query;
-
-    try{
-        if(type !== 'seleccionar'){
-            let types = pokemons
-            console.log(types)
-            res.json(types)
-        }else{
-            res.json(pokemons)
-        }
-        res.send(type)
-    }catch(e){
-        throw new Error(e)
-    }
-}) */
 
 pokemon.get('/:id', async (req, res) => {
     let { id } = req.params
@@ -231,9 +208,7 @@ pokemon.put('/modify', async (req, res)=> {
 })
 
 pokemon.delete('/delete', async (req, res) => {
-    console.log('Hola')
     let { id } = req.query
-    console.log('Hola')
     try {
         if(id){
             const pokemonDelete = await Pokemon.findOne({
